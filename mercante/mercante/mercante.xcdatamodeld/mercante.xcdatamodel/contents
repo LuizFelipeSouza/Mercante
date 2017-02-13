@@ -1,4 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="15G1212" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Cliente" representedClassName="Cliente" syncable="YES" codeGenerationType="class">
+        <attribute name="documento" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endereco" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nome" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tipoDocumento" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="cliente_compra" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Compra" inverseName="compra_cliente" inverseEntity="Compra" syncable="YES"/>
+    </entity>
+    <entity name="Compra" representedClassName="Compra" syncable="YES" codeGenerationType="class">
+        <attribute name="valorPago" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="compra_cliente" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Cliente" inverseName="cliente_compra" inverseEntity="Cliente" syncable="YES"/>
+        <relationship name="compra_formaPagamento" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FormaPagamento" inverseName="formaPagamento_compra" inverseEntity="FormaPagamento" syncable="YES"/>
+        <relationship name="compra_produto" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Produto" inverseName="produto_compra" inverseEntity="Produto" syncable="YES"/>
+    </entity>
+    <entity name="Entrega" representedClassName="Entrega" syncable="YES" codeGenerationType="class">
+        <attribute name="distancia" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="enderecoDestino" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="enderecoOrigem" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="valor" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="entrega_veiculo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Veiculo" inverseName="veiculo_entrega" inverseEntity="Veiculo" syncable="YES"/>
+    </entity>
+    <entity name="Entregador" representedClassName="Entregador" syncable="YES" codeGenerationType="class">
+        <attribute name="documento" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endereco" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nome" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tipoDocumento" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="entregador_veiculo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Veiculo" inverseName="veiculo_entregador" inverseEntity="Veiculo" syncable="YES"/>
+    </entity>
+    <entity name="FormaPagamento" representedClassName="FormaPagamento" syncable="YES" codeGenerationType="class">
+        <attribute name="nome" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="parcelas" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="formaPagamento_compra" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Compra" inverseName="compra_formaPagamento" inverseEntity="Compra" syncable="YES"/>
+        <relationship name="formaPagamento_produto" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Produto" inverseName="produto_formaPagamento" inverseEntity="Produto" syncable="YES"/>
+    </entity>
+    <entity name="Fornecedor" representedClassName="Fornecedor" syncable="YES" codeGenerationType="class">
+        <attribute name="documento" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="endereco" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nome" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tipoDocumento" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="fornecedor_produto" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Produto" inverseName="produto_fornecedor" inverseEntity="Produto" syncable="YES"/>
+    </entity>
+    <entity name="Produto" representedClassName="Produto" syncable="YES" codeGenerationType="class">
+        <attribute name="foto" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nome" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tipo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="valor" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="produto_compra" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Compra" inverseName="compra_produto" inverseEntity="Compra" syncable="YES"/>
+        <relationship name="produto_formaPagamento" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FormaPagamento" inverseName="formaPagamento_produto" inverseEntity="FormaPagamento" syncable="YES"/>
+        <relationship name="produto_fornecedor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Fornecedor" inverseName="fornecedor_produto" inverseEntity="Fornecedor" syncable="YES"/>
+    </entity>
+    <entity name="Veiculo" representedClassName="Veiculo" syncable="YES" codeGenerationType="class">
+        <attribute name="descricao" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="foto" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tipoTransporte" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="valorEntrega" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="veiculo_entrega" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Entrega" inverseName="entrega_veiculo" inverseEntity="Entrega" syncable="YES"/>
+        <relationship name="veiculo_entregador" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Entregador" inverseName="entregador_veiculo" inverseEntity="Entregador" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Cliente" positionX="-468" positionY="-291" width="128" height="120"/>
+        <element name="Fornecedor" positionX="-191" positionY="-333" width="128" height="120"/>
+        <element name="Entregador" positionX="18" positionY="-333" width="128" height="120"/>
+        <element name="Produto" positionX="-126" positionY="-90" width="128" height="150"/>
+        <element name="Veiculo" positionX="61" positionY="216" width="128" height="135"/>
+        <element name="Compra" positionX="-450" positionY="-9" width="128" height="105"/>
+        <element name="Entrega" positionX="-450" positionY="213" width="128" height="120"/>
+        <element name="FormaPagamento" positionX="-137" positionY="183" width="128" height="105"/>
+    </elements>
 </model>
